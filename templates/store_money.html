@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethereum DApp 5</title>
+
+    <style>
+        /* Global font and background setup */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #2c2c2c, #565656); /* Left dark, right light */
+            color: white;
+        }
+
+        /* Center container */
+        .container {
+            background-color: rgba(255, 255, 255, 0.1); /* Transparent container */
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Hover scaling for the container */
+        .container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Heading style */
+        h2 {
+            font-size: 28px;
+            margin-bottom: 25px;
+            color: #ffffff;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        /* Button and form styles */
+        input[type="submit"], button {
+            background: linear-gradient(135deg, #333333, #666666);
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s;
+            width: 100%;
+            max-width: 320px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        /* Hover effect for buttons */
+        input[type="submit"]:hover, button:hover {
+            background: linear-gradient(135deg, #555555, #888888);
+            transform: translateY(-3px);
+        }
+
+        /* Input fields */
+        input[type="number"] {
+            width: 100%;
+            padding: 14px;
+            margin-top: 20px;
+            margin-bottom: 30px; /* Added larger margin to create space */
+            border-radius: 30px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* Output styling */
+        p {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #00c6ff;
+            font-weight: 500;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            input, button {
+                font-size: 16px;
+            }
+
+            p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome to store money</h2>
+        <input type="number" id="moneyInput" placeholder="Enter amount to store">
+        <button class="btn" onclick="storeValue()">Store Value</button>
+        <button class="btn" onclick="getValue()">Get Stored Value</button>
+        <p id="storedValue"></p>
+        <p id="status"></p>
+        <form action="/" method="post">
+            <input type="submit" value="Main">
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <script>
+        const contractAddress = '0x063E2F838005c8f788427026C8fAc1210E5d5Ea3'; // Replace with your contract address
+        const contractABI = [
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "_value",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "store_m",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "view_m",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            }
+        ];
+
+        const web3 = new Web3(Web3.givenProvider);
+        const contract = new web3.eth.Contract(contractABI, contractAddress);
+
+        async function storeValue() {
+            const accounts = await web3.eth.requestAccounts();
+            const value = document.getElementById('moneyInput').value;
+            console.log("value: " + value);
+            console.log("accounts[0] " + accounts[0]);
+            await contract.methods.store_m(value).send({from: accounts[0]});
+        }
+
+        async function getValue() {
+            const storedValue = await contract.methods.view_m().call();
+            console.log("stored value " + storedValue);
+            document.getElementById('storedValue').innerText = "Stored Value: " + storedValue;
+        }
+    </script>
+</body>
+</html>

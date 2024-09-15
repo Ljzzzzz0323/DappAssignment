@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethereum DApp 5</title>
+
+    <style>
+        /* Global font and background setup */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #2c2c2c, #565656); /* Gradient gray background */
+            color: white;
+        }
+
+        /* Center container */
+        .container {
+            background-color: rgba(255, 255, 255, 0.1); /* Transparent background for container */
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Subtle scaling effect on hover */
+        .container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Title styling */
+        h2 {
+            font-size: 28px;
+            margin-bottom: 25px;
+            color: #ffffff;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        /* Button and form styles */
+        input[type="submit"] {
+            background: linear-gradient(135deg, #333333, #666666);
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s;
+            width: 100%;
+            max-width: 320px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        /* Button hover effects */
+        input[type="submit"]:hover {
+            background: linear-gradient(135deg, #555555, #888888);
+            transform: translateY(-3px);
+        }
+
+        /* Input fields and buttons */
+        input, button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 30px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            background-color: #333333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        /* Button hover effect */
+        button:hover {
+            background-color: #666666;
+            transform: translateY(-2px);
+        }
+
+        /* Styling for paragraphs */
+        p {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #00c6ff;
+            font-weight: 500;
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            input, button {
+                font-size: 14px;
+            }
+
+            p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Admin Panel</h2>
+        <form action="/viewDB" method="post">
+            <input type="submit" value="View Database">
+        </form>
+        <form action="/delDB" method="post">
+            <input type="submit" value="Delete Database">
+        </form>
+        <form action="/main" method="post">
+            <input type="submit" value="Main">
+        </form>
+    </div>
+</body>
+</html>

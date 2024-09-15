@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethereum DApp 5</title>
+
+    <style>
+        /* Importing a modern font */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #2c2c2c, #565656); /* Gradient background */
+            color: white;
+        }
+
+        /* Center container */
+        .container {
+            background-color: rgba(255, 255, 255, 0.1); /* Transparent container */
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Hover scaling for the container */
+        .container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Heading style */
+        h2 {
+            font-size: 28px;
+            margin-bottom: 25px;
+            color: #ffffff;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        /* Input fields and submit buttons */
+        input[type="submit"] {
+            background: linear-gradient(135deg, #333333, #666666);
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s;
+            width: 100%;
+            max-width: 320px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        input[type="submit"]:hover {
+            background: linear-gradient(135deg, #555555, #888888);
+            transform: translateY(-3px);
+        }
+
+        /* Form spacing */
+        form {
+            margin-bottom: 25px;
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            input[type="submit"] {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>User Data</h2>
+        <p>{{r}}</p> <!-- Displaying dynamic content for user data -->
+        <form action="/main" method="post">
+            <input type="submit" value="Main">
+        </form>
+    </div>
+</body>
+</html>

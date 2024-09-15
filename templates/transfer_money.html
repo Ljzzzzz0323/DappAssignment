@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethereum DApp 5</title>
+
+    <style>
+        /* Importing a modern font */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #2c2c2c, #565656); /* Gradient background */
+            color: white;
+        }
+
+        /* Center container */
+        .container {
+            background-color: rgba(255, 255, 255, 0.1); /* Transparent container */
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Hover scaling for the container */
+        .container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Heading style */
+        h2 {
+            font-size: 28px;
+            margin-bottom: 25px;
+            color: #ffffff;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        /* Input fields styling */
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 14px;
+            margin: 10px 0;
+            border-radius: 30px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* Placeholder text color */
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.7); /* Lighten the placeholder text */
+        }
+
+        /* Submit button styling */
+        input[type="submit"], button {
+            background: linear-gradient(135deg, #333333, #666666);
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s;
+            width: 100%;
+            max-width: 320px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        /* Hover effect on submit button */
+        input[type="submit"]:hover, button:hover {
+            background: linear-gradient(135deg, #555555, #888888);
+            transform: translateY(-3px);
+        }
+
+        /* Spacing for elements inside the form */
+        form {
+            margin-bottom: 25px;
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            input[type="submit"], button {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome to transfer money v1</h2>
+        <input type="text" id="payer_id" placeholder="Please enter payer address">
+        <input type="text" id="payee_id" placeholder="Please enter payee address">
+        <input type="number" id="amount_id" placeholder="Please enter amount">
+        <button class="btn" onclick="transfer()">Transfer Money</button>
+        <button class="btn" onclick="view_transaction()">View Transaction</button>
+        <p id="view_payer_id"></p>
+        <p id="view_payee_id"></p>
+        <p id="view_amount_id"></p>
+        <form action="/" method="post">
+            <input type="submit" value="Main">
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <script>
+        const contract_address = "0x6e6B1BF61a59b6A16Cd5A21621996eFE2A1793de";
+        const contract_abi = [
+            {
+                "inputs": [],
+                "stateMutability": "nonpayable",
+                "type": "constructor"
+            },
+            {
+                "inputs": [],
+                "name": "check_transaction",
+                "outputs": [
+                    {
+                        "internalType": "address",
+                        "name": "",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "amount_to_transfer",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "payer_add",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "payee_add",
+                        "type": "address"
+                    }
+                ],
+                "name": "weixin",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            }
+        ]
+
+        const web3 = new Web3(Web3.givenProvider);
+        const contract = new web3.eth.Contract(contract_abi, contract_address);
+
+        async function transfer(){
+            const accounts = await web3.eth.requestAccounts();
+            const payer_address = document.getElementById("payer_id").value;
+            const payee_address = document.getElementById("payee_id").value;
+            const amount = document.getElementById("amount_id").value;
+            await contract.methods.weixin(amount,payer_address,payee_address).send({from:accounts[0]});
+        }
+
+        async function view_transaction() {
+            const result = await contract.methods.check_transaction().call();
+            const payer_address = result[0];
+            const payee_address = result[1];
+            const amount = result[2];
+
+            document.getElementById('view_payer_id').innerText = "Payer Address : " + payer_address;
+            document.getElementById('view_payee_id').innerText = "Payee Address : " + payee_address;
+            document.getElementById('view_amount_id').innerText = "Amount : " + amount;
+        }
+    </script>
+</body>
+</html>
